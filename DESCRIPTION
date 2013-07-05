@@ -1,0 +1,12 @@
+Package: nabel
+Type: Package
+Title: Demo application for OpenCPU
+Version: 1.0
+Date: 2013-03-08
+Author: STATDEV
+Maintainer: STATDEV <administrations@statdev.org>
+Description: OpenCPU
+License: Apache2
+Imports:
+    lattice,
+    httpRequest

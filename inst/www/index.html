@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>Nabel OpenCPU example app</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+<!-- ocpu library -->
+<script src="jquery/jquery-1.9.1.js"> </script>
+<script src="ocpu/ocpu.js"> </script>
+
+<!-- some optional styling stuff -->
+<link href="bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen">
+<link href="jqueryui/css/ui-lightness/jquery-ui-1.10.3.custom.css" rel="stylesheet" media="screen">
+
+<script src="bootstrap/js/bootstrap.js"> </script>
+<script src="jqueryui/jquery-ui-1.10.3.custom.js"> </script>
+
+
+
+<script> 
+$(document).ready(function() {
+	//simple function that initiates an R plot widget
+	function drawplot(){
+		$("#plotdiv").r_fun_plot("nabel", {
+			pollutant : $("#pollutant").val(),
+			interval : $("#interval").val(),
+			stations : $("#stations").val().map(parseFloat),		
+			period : $("#period").val()				
+		});
+	}
+	
+	//optional, requires jquery-ui.
+	$("#plotdiv").resizable()
+	
+	//button handler
+	$("#plotbutton").on("click", function(e){
+		e.preventDefault();
+		drawplot();
+	});
+	
+	//default plot on page load
+	drawplot();
+});
+</script>
+<style>
+
+#stations {
+	height: 285px;
+}
+
+#plotdiv {
+	width: 100%;
+	height: 400px;
+	border: 1px solid #e3e3e3;
+	border-radius: 4px;
+}
+
+#plotbutton{
+	width: 150px;
+	margin-left: 50px;
+}
+
+</style>
+</head>
+
+<body>
+	<div class="container">
+
+		<div class="page-header">
+			<h1>Nabel Switzerland</h1>
+		</div>
+		
+		<div class="row">
+			<div class="span4">
+
+				<form class="well" id="paramform">
+					<fieldset>
+						<legend>Plot Parameters</legend>
+						<label>Stations</label> 
+						<select id="stations" multiple="multiple">
+							<option selected="selected" value="1">Bern-Bollwerk</option>
+							<option selected="selected" value="2">Lausanne-César-Roux</option>
+							<option value="3">Lugano-Università</option>
+							<option selected="selected" value="4">Zürich-Kaserne</option>
+							<option selected="selected" value="5">Basel-Binningen</option>
+							<option value="6">Dübendorf-Empa</option>
+							<option value="7">Härkingen-A1</option>
+							<option value="8">Sion-Aéroport-A9</option>
+							<option value="9">Magadino-Cadenazzo</option>
+							<option value="10">Payerne</option>
+							<option value="11">Tänikon</option>
+							<option value="12">Lägeren</option>
+							<option value="13">Chaumont</option>
+							<option value="14">Rigi-Seebodenalp</option>
+							<option value="15">Davos-Seehornwald</option>
+							<option value="16">Jungfraujoch</option>
+						</select> 
+						<label>Pollutant</label> 
+						<select name="pollutant" id="pollutant">
+							<option value="o3">Ozone (O3)</option>
+							<option value="no2">Nitrogen dioxide (NO2)</option>
+							<option value="so2">Sulfur dioxide (SO2)</option>
+							<option value="co">Carbon monoxide (CO)</option>
+							<option value="pm10">Particulate matter (PM10)</option>
+							<option value="pm1">Particulate matter (PM1)</option>
+							<option value="cpc">Particulate number concentration (CPC)</option>
+							<option value="nmvoc">Non-methane volatile organic compounds (NMVOC)</option>
+							<option selected="selected" value="temp">Temperature (TEMP)</option>
+							<option value="prec">Precipitation (PREC)</option>
+							<option value="rad">Global radiation (RAD)</option>
+						</select> 
+						<label>Interval</label> 
+						<select id="interval">
+							<option selected="selected" value="hourly">Hourly</option>
+							<option value="daily">Daily</option>
+						</select> 
+						<label>Period</label> 
+						<select id="period">
+							<option value="day">Day</option>
+							<option selected="selected" value="week">Week</option>
+							<option value="month">Month</option>
+						</select>
+
+						<button class="btn btn-primary" id="plotbutton"><i class="icon-ok icon-white"></i> Update Plot</button>
+					</fieldset>
+				</form>
+			</div>
+			
+			<div class="span8">
+				<div id="plotdiv"></div>
+			</div>			
+			
+		</div>
+	</div>
+</body>
+</html>
