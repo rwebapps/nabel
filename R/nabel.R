@@ -167,9 +167,10 @@ nabel <- function(pollutant = c("o3", "no2", "so2", "co", "nmvoc", "pm10", "pm1"
 	
 	## convert character encoding to UTF-8 and read into data.frame
 	docconv <- iconv(doc, from = "ISO-8859-1", to = "UTF-8")
-	head <- readLines(textConnection(docconv, encoding = "UTF-8"), n = 30)
+	head <- readLines(textConnection(docconv, encoding = "UTF-8"), n = 30, encoding = "UTF-8")
 	skip <- grep("Date/time;", head) - 1
 	dat <- read.table(textConnection(docconv, encoding = "UTF-8"),
+			encoding = "UTF-8",
 			sep = ";",
 			skip = skip,
 			header = TRUE,
