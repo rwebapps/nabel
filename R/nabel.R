@@ -67,6 +67,8 @@
 #' \url{http://www.bafu.admin.ch/luft/luftbelastung/blick_zurueck/datenabfrage/index.html?lang=en}
 #' @author Thomas Zumbrunn (\url{http://thomas.zumbrunn.name/})
 #' @export
+#' @import lattice
+#' @import httpRequest
 #' @examples
 #' ## plot daily mean NO2 concentrations at three stations
 #' ## from 1 January 2011 up to today
@@ -85,10 +87,6 @@ nabel <- function(pollutant = c("o3", "no2", "so2", "co", "nmvoc", "pm10", "pm1"
 		from = NULL,
 		to = NULL) {
   
-  #double check dependencies are available
-  stopifnot(require(httpRequest))
-  stopifnot(require(lattice))
-
 	## map parameters to HTML form parameters
 	## (some of the actual HTML form parameters are the positions
 	## of the terms in the following vector/lists)
@@ -158,6 +156,11 @@ nabel <- function(pollutant = c("o3", "no2", "so2", "co", "nmvoc", "pm10", "pm1"
 		params <- c(params, "von" = from)
 		params <- c(params, "bis" = to)
 	}
+
+	#First test that httpRequest is loaded outside of tryCatch
+	postToHost <- postToHost;
+
+	#http Request
 	doc <- tryCatch(postToHost(host = "aurora.meteotest.ch",
 					path = "/bafu/nabel/abfrage_neu/index.php/ausgabe/index/3",
 					accept.charset = "ISO-8559-1",
