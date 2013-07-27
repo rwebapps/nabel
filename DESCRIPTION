@@ -5,6 +5,7 @@ Version: 1.0
 Date: 2013-07-07
 Author: Jeroen Ooms, Thomas Zumbrunn
 Maintainer: Jeroen <jeroenooms@gmail.com>
+Encoding: UTF-8
 Description: OpenCPU
 License: Apache2
 Imports:
