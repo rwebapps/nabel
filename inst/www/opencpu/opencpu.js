@@ -1,11 +1,21 @@
+/**
+ * Javascript client library for OpenCPU
+ * Version 0.1
+ * Depends: jQuery
+ * http://github.com/jeroenooms/opencpu-js
+ * 
+ * Include this file in your apps (packages).
+ * Edit r_path variable below if needed.
+ */
+
 (function ( $ ) {
-	//static vars
-	var r_path = "../R";
-	
+  //static vars
+  var r_path = "../R";
+  
 	//internal functions
 	function r_fun_call(fun, args, handler){
 		if(!fun) throw "r_fun_call called without fun";
-		args = (typeof args !== 'undefined') ? args : {};
+		var args = args || {};
 		
 		var jqxhr = $.ajax({
 			type: "POST",
@@ -40,7 +50,7 @@
 	
 	function r_session_list(location, handler){
 		if(!location) throw "r_session_list called without location";
-		var jqxhr = $.ajax({
+		return $.ajax({
 			type: "GET",
 			url: location,
 			dataType: "text",
@@ -48,7 +58,6 @@
 				handler(data);
 			}
 		});
-		return jqxhr;		
 	}
 	
 	//plotting widget
@@ -58,11 +67,17 @@
 		if(!targetdiv.data("div")){
 			targetdiv.data("div", $('<div />').attr({
 				class: "r_fun_plot",
-				style: "width: 100%; height:100%; position:absolute; background-repeat:no-repeat; background-size: 100% 100%;"
+				style: "width: 100%; height:100%; min-width: 100px; min-height: 100px; position:absolute; background-repeat:no-repeat; background-size: 100% 100%;"
 			}).appendTo(targetdiv));
 		}
 		
 		var div = targetdiv.data("div");		
+
+		if(!div.data("spinner")){
+			div.data("spinner", $('<span />').attr({
+				style : "position: absolute; top: 20px; left: 20px; z-index:1000; font-family: monospace;" 
+    		}).text("loading...").appendTo(div));
+		}    
 
 		if(!div.data("pdflink")){
 			div.data("pdflink", $('<a />').attr({
@@ -76,64 +91,78 @@
 				target: "_blank",
 				style: "position: absolute; top: 30px; right: 10px; z-index:1000; text-decoration:underline; font-family: monospace;"
 			}).text("svg").appendTo(div));
-		}		
+		}	
+    
+		if(!div.data("pnglink")){
+			div.data("pnglink", $('<a />').attr({
+				target: "_blank",
+				style: "position: absolute; top: 50px; right: 10px; z-index:1000; text-decoration:underline; font-family: monospace;"
+			}).text("png").appendTo(div));
+		}	    
 		
 		div.css("background-image", "none");
 		var pdf = div.data("pdflink").hide();
 		var svg = div.data("svglink").hide();
+		var png = div.data("pnglink").hide();
+		var spinner = div.data("spinner").show();
 		
-		//call the function
-		r_fun_call(fun, args, function(Location){
+
+		// call the function
+		return r_fun_call(fun, args, function(Location) {
 			div.data("plotlocation", Location);
-			pdf.attr("href", Location + "graphics/last/pdf")
-			svg.attr("href", Location + "graphics/last/svg")			
-			
-			//function to update the png image
-			var updatepng = debounce(function(e){
+			pdf.attr("href", Location + "graphics/last/pdf?width=11.69&height=8.27&paper=a4r");
+			svg.attr("href", Location + "graphics/last/svg?width=11.69&height=8.27");
+			png.attr("href", Location + "graphics/last/png?width=800&height=600");
+
+			// function to update the png image
+			var updatepng = debounce(function(e) {
 				var loc = div.data("plotlocation");
 				var oldurl = div.css("background-image");
 				var newurl = "url(" + loc + "graphics/last/png?width=" + div.width() + "&height=" + div.height() + ")";
-				
-				//use the tail of the url only to prevent absolute url problems
-				if(div.is(":visible") && oldurl.slice(-50) != newurl.slice(-50)){
+
+				// use the tail of the url only to prevent absolute url problems
+				if (div.is(":visible") && oldurl.slice(-50) != newurl.slice(-50)) {
 					div.css("background-image", newurl);
 				}
+				spinner.hide();
 				pdf.show();
-				svg.show();				
-			}, 500);				
-			
-			//register update handlers
+				svg.show();
+				png.show();
+			}, 500);
+
+			// register update handlers
 			div.on("resize", updatepng);
 			$(window).on("resize", updatepng);
-			
-			//show
+
+			// show
 			updatepng();
 		});
-
-        return this;
-    };
+	}
     
-    //from understore.js
-    debounce = function(func, wait, immediate) {
-        var result;
-        var timeout = null;
-        return function() {
-          var context = this, args = arguments;
-          var later = function() {
-            timeout = null;
-            if (!immediate) result = func.apply(context, args);
-          };
-          var callNow = immediate && !timeout;
-          clearTimeout(timeout);
-          timeout = setTimeout(later, wait);
-          if (callNow) result = func.apply(context, args);
-          return result;
-        };
-      };    
 
-      //export
-      window.ocpu = {
-      	r_fun_call : r_fun_call
-      }
+	  // from understore.js
+	function debounce(func, wait, immediate) {
+		var result;
+		var timeout = null;
+		return function() {
+			var context = this, args = arguments;
+			var later = function() {
+				timeout = null;
+				if (!immediate)
+					result = func.apply(context, args);
+			};
+			var callNow = immediate && !timeout;
+			clearTimeout(timeout);
+			timeout = setTimeout(later, wait);
+			if (callNow)
+				result = func.apply(context, args);
+			return result;
+		}
+	}
+
+	// exported functions
+	window.opencpu = {
+		r_fun_call : r_fun_call
+	}
       
 }( jQuery ));
