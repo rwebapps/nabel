@@ -29,7 +29,7 @@ $(document).ready(function() {
       interval : $("#interval").val(),
       stations : $("#stations").val().map(parseFloat),    
       period : $("#period").val()        
-    }).done(function(){
+    }).always(function(){
       $("#plotbutton").removeAttr("disabled");  
     });
   }
