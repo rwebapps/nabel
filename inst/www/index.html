@@ -17,20 +17,20 @@
 <script src="bootstrap/js/bootstrap.js"> </script>
 <script src="jqueryui/jquery-ui-1.10.3.custom.js"> </script>
 
-
-
 <script> 
 $(document).ready(function() {
   //simple function that initiates an R plot widget
   function drawplot(){
     $("#plotbutton").attr("disabled", "disabled");
-    $("#plotdiv").r_fun_plot("nabel", {
+    var req = $("#plotdiv").r_fun_plot("nabel", {
       pollutant : $("#pollutant").val(),
       interval : $("#interval").val(),
       stations : $("#stations").val().map(parseFloat),    
       period : $("#period").val()        
     }).always(function(){
       $("#plotbutton").removeAttr("disabled");  
+    }).fail(function(){
+      alert(req.responseText);
     });
   }
   
