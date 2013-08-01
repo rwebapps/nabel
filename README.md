@@ -1,21 +1,18 @@
-Nabel OpenCPU App
------------------
+Nabel
+-----
 
-This is one of the example OpenCPU apps. To install it:
+Simple OpenCPU Application. To install in R:
 
     library(devtools)
     install_github("nabel", "opencpu")
 
-To run it, start opencpu
-
     library(opencpu)
+    opencpu$browse("library/nabel/www")
 
-And then open the App in the browser, for example:
-
-    http://localhost:12345/library/nabel/www
-
-Like all OpenCPU apps, it's just a R function:
+Use the same function locally:
 
     library(nabel)
     nabel()
+    ?nabel
 
+For more information about OpenCPU apps, see [opencpu.js](https://github.com/jeroenooms/opencpu.js#readme)
