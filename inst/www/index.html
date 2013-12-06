@@ -7,8 +7,8 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 
 <!-- ocpu library -->
-<script src="jquery/jquery-1.9.1.js"> </script>
-<script src="opencpu/opencpu.js"> </script>
+<script src="jquery/jquery-1.10.2.js"> </script>
+<script src="opencpu/opencpu-0.4.js"> </script>
 
 <!-- some optional styling stuff -->
 <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen">
@@ -22,7 +22,7 @@ $(document).ready(function() {
   //simple function that initiates an R plot widget
   function drawplot(){
     $("#plotbutton").attr("disabled", "disabled");
-    var req = $("#plotdiv").r_fun_plot("nabel", {
+    var req = $("#plotdiv").rplot("nabel", {
       pollutant : $("#pollutant").val(),
       interval : $("#interval").val(),
       stations : $("#stations").val().map(parseFloat),    
