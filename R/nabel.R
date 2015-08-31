@@ -147,6 +147,9 @@ nabel <- function(pollutant = c("o3", "no2", "so2", "co", "nmvoc", "pm10", "pm1"
 			"ausgabe" = "csv",
 			"submit" = "Query")
 	params <- c(params, "schadstoff" = match(pollutant, names(schadstoff)))
+	for (i in seq(along = schadstoff)) {
+	  params <- c(params, "schadstoffsliste[]" = i)
+	}
 	for (i in seq(along = stations)) {
 		params <- c(params, "stationsliste[]" = match(stations[i], stationsliste))
 	}
@@ -161,18 +164,18 @@ nabel <- function(pollutant = c("o3", "no2", "so2", "co", "nmvoc", "pm10", "pm1"
 	postToHost <- postToHost;
 
 	#http Request
-	doc <- tryCatch(postToHost(host = "aurora.meteotest.ch",
-					path = "/bafu/nabel/abfrage_neu/index.php/ausgabe/index/3",
-					accept.charset = "ISO-8559-1",
+	doc <- tryCatch(postToHost(host = "bafu.meteotest.ch",
+					path = "/nabel/abfrage/index.php/ausgabe/index/3",
+					accept.charset = "utf-8",
+					accept.encoding = "",
 					data.to.send = as.list(params)),
 			error = function(e) stop(paste("No measurements on pollutant '", pollutant, "' available for station(s) ", paste(stations, collapse = ", "), ".", sep = "")),
 			NULL)
-	
-	## convert character encoding to UTF-8 and read into data.frame
-	docconv <- iconv(doc, from = "ISO-8859-1", to = "UTF-8")
-	head <- readLines(textConnection(docconv, encoding = "UTF-8"), n = 30, encoding = "UTF-8")
+
+	## read into data.frame
+	head <- readLines(textConnection(doc, encoding = "UTF-8"), n = 30, encoding = "UTF-8")
 	skip <- grep("Date/time;", head) - 1
-	dat <- read.table(textConnection(docconv, encoding = "UTF-8"),
+	dat <- read.table(textConnection(doc, encoding = "UTF-8"),
 			encoding = "UTF-8",
 			sep = ";",
 			skip = skip,
