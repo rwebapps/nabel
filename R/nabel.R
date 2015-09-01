@@ -189,9 +189,13 @@ nabel <- function(pollutant = c("o3", "no2", "so2", "co", "nmvoc", "pm10", "pm1"
 	names(dat)[1] <- "datetime"
 	sta <- names(dat)[-1]
 	if (interval == "hourly") {
-		dat$datetime <- as.POSIXct(strptime(dat$datetime, format = "%d.%m.%Y %H:%M", tz = "CET"), tz = "CET")
+		dat$datetime <- as.POSIXct(strptime(dat$datetime, format = "%d.%m.%Y %H:%M",
+		                                    tz = "Europe/Zurich"),
+		                           tz = Sys.timezone())
 	} else {
-		dat$datetime <- as.POSIXct(strptime(dat$datetime, format = "%d.%m.%Y", tz = "CET"), tz = "CET")
+		dat$datetime <- as.POSIXct(strptime(dat$datetime, format = "%d.%m.%Y",
+		                                    tz = "Europe/Zurich"),
+		                           tz = Sys.timezone())
 	}
 	dat <- reshape(dat,
 			direction = "long",
@@ -217,7 +221,7 @@ nabel <- function(pollutant = c("o3", "no2", "so2", "co", "nmvoc", "pm10", "pm1"
 	pl <- xyplot(measurement ~ datetime, dat, groups = station,
 			type = c("l"),
 			auto.key = list(space = "right", points = FALSE, lines = TRUE),
-			xlab = "date/time (CET)",
+			xlab = "date/time (Europe/Zurich)",
 			ylab = ylabs[[pollutant]])
 	print(pl)
 }
