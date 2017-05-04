@@ -64,7 +64,7 @@
 #' @return none (invisible \code{NULL})
 #' @note Not all pollutants are measured at all stations.
 #' @source \url{http://www.empa.ch/nabel/} and
-#' \url{http://www.bafu.admin.ch/luft/luftbelastung/blick_zurueck/datenabfrage/index.html?lang=en}
+#' \url{https://www.bafu.admin.ch/bafu/en/home/topics/air/state/data/data-query-nabel.html}
 #' @author Thomas Zumbrunn (\url{http://thomas.zumbrunn.name/})
 #' @export
 #' @import lattice
@@ -165,7 +165,7 @@ nabel <- function(pollutant = c("o3", "no2", "so2", "co", "nmvoc", "pm10", "pm1"
 
 	#http Request
 	doc <- tryCatch(postToHost(host = "bafu.meteotest.ch",
-					path = "/nabel/abfrage/index.php/ausgabe/index/3",
+					path = "/nabel/index.php/ausgabe/index/english",
 					accept.charset = "utf-8",
 					accept.encoding = "",
 					data.to.send = as.list(params)),
