@@ -173,10 +173,11 @@ nabel <- function(pollutant = c("o3", "no2", "so2", "co", "nmvoc", "pm10", "pm1"
 			NULL)
 
 	## read into data.frame
-	head <- readLines(textConnection(doc, encoding = "UTF-8"), n = 30, encoding = "UTF-8")
+	Encoding(doc) <- "latin1"
+	doc <- enc2utf8(doc)
+	head <- readLines(textConnection(doc), n = 30)
 	skip <- grep("Date/time;", head) - 1
-	dat <- read.table(textConnection(doc, encoding = "UTF-8"),
-			encoding = "UTF-8",
+	dat <- read.table(textConnection(doc),
 			sep = ";",
 			skip = skip,
 			header = TRUE,

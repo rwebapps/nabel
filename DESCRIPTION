@@ -1,5 +1,5 @@
 Package: nabel
-Type: OpenCPU Application
+Type: Package
 Title: Nabel Demo application for OpenCPU
 Version: 1.0.1
 Date: 2017-05-04
