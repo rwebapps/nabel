@@ -1,7 +1,7 @@
 Package: nabel
 Type: Package
 Title: Nabel Demo application for OpenCPU
-Version: 1.0.1
+Version: 1.1
 Date: 2017-05-04
 Author: Thomas Zumbrunn, Jeroen Ooms
 Maintainer: Jeroen Ooms <jeroen@berkeley.edu>
