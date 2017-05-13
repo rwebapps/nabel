@@ -3,11 +3,12 @@ Type: Package
 Title: Nabel Demo application for OpenCPU
 Version: 1.0.1
 Date: 2017-05-04
-Author: Jeroen Ooms, Thomas Zumbrunn
-Maintainer: Jeroen <jeroenooms@gmail.com>
+Author: Thomas Zumbrunn, Jeroen Ooms
+Maintainer: Jeroen Ooms <jeroen@berkeley.edu>
 Encoding: UTF-8
 Description: OpenCPU
-License: Apache2
+License: Nabel Demo application for OpenCPU. Plots live data from the 
+    Swiss Air Quality Institute.
 Imports:
     lattice,
     httpRequest
