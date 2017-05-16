@@ -284,7 +284,7 @@
         if(!Location) return;
         pngwidth = plotdiv.width();
         pngheight = plotdiv.height();
-        plotdiv.css("background-image", "url(" + Location + "graphics/last/png?width=" + pngwidth * ratio + "&height=" + pngheight * ratio + "&res=" + 96 * ratio + ")");       
+        plotdiv.css("background-image", "url(" + Location + "graphics/last/png?width=" + pngwidth * ratio + "&height=" + pngheight * ratio + "&res=" + 72 * ratio + ")");       
       }
       
       function setlocation(newloc){
