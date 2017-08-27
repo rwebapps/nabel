@@ -68,7 +68,6 @@
 #' @author Thomas Zumbrunn (\url{http://thomas.zumbrunn.name/})
 #' @export
 #' @import lattice
-#' @import httpRequest
 #' @examples
 #' ## plot daily mean NO2 concentrations at three stations
 #' ## from 1 January 2011 up to today
