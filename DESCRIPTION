@@ -10,5 +10,4 @@ Description: OpenCPU
 License: Nabel Demo application for OpenCPU. Plots live data from the 
     Swiss Air Quality Institute.
 Imports:
-    lattice,
-    httpRequest
+    lattice

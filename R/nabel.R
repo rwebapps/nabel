@@ -159,21 +159,13 @@ nabel <- function(pollutant = c("o3", "no2", "so2", "co", "nmvoc", "pm10", "pm1"
 		params <- c(params, "von" = from)
 		params <- c(params, "bis" = to)
 	}
-
-	#First test that httpRequest is loaded outside of tryCatch
-	postToHost <- postToHost;
-
-	#http Request
-	doc <- tryCatch(postToHost(host = "bafu.meteotest.ch",
-					path = "/nabel/index.php/ausgabe/index/english",
-					accept.charset = "utf-8",
-					accept.encoding = "",
-					data.to.send = as.list(params)),
-			error = function(e) stop(paste("No measurements on pollutant '", pollutant, "' available for station(s) ", paste(stations, collapse = ", "), ".", sep = "")),
-			NULL)
+  
+	# Update 2017: removed httpRequest because server requires https now
+	url <- "https://bafu.meteotest.ch/nabel/index.php/ausgabe/index/english"
+	paramstr <- paste(names(params), params, sep = "=", collapse = "&")
+	doc <- readLines(paste(url, paramstr, sep = "?"), encoding = 'latin1')
 
 	## read into data.frame
-	Encoding(doc) <- "latin1"
 	doc <- enc2utf8(doc)
 	head <- readLines(textConnection(doc), n = 30)
 	skip <- grep("Date/time;", head) - 1
