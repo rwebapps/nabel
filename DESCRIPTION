@@ -2,7 +2,6 @@ Package: nabel
 Type: Package
 Title: Nabel Demo application for OpenCPU
 Version: 1.2
-Date: 2017-10-28
 Author: Thomas Zumbrunn, Jeroen Ooms
 Maintainer: Jeroen Ooms <jeroen@berkeley.edu>
 Encoding: UTF-8
